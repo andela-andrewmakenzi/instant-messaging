@@ -17,4 +17,8 @@ export class LoginPage {
   register() {
     this.navCtrl.push('RegisterPage');
   }
+
+  login() {
+    this.navCtrl.setRoot('TabsPage');
+  }
 }
