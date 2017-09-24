@@ -7,16 +7,18 @@
 
 <ion-content padding>
   <img src="assets/logo.png" alt="logo" class="logo" />
-  <ion-item>
-    <ion-label floating color="primary">Email Address</ion-label>
-    <ion-input type="text"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label floating color="primary">Password</ion-label>
-    <ion-input type="password"></ion-input>
-  </ion-item>
-  <ion-row>
-    <button ion-button block (click)="login()">Log In</button>
-    <button ion-button clear block (click)="register()">Register</button>
-  </ion-row>
+  <div>
+    <ion-item>
+      <ion-label floating color="primary">Email Address</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating color="primary">Password</ion-label>
+      <ion-input type="password"></ion-input>
+    </ion-item>
+    <ion-row>
+      <button ion-button block (click)="login()">Log In</button>
+      <button ion-button clear block (click)="register()">Register</button>
+    </ion-row>
+  </div>
 </ion-content>

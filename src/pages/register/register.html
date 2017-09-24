@@ -5,16 +5,18 @@
 </ion-header>
 
 <ion-content padding>
-    <img src="assets/logo.png" alt="logo" class="logo" />
+  <img src="assets/logo.png" alt="logo" class="logo" />
+  <div [formGroup]="loginForm">
     <ion-item>
-      <ion-label floating color="primary">Email</ion-label>
-      <ion-input type="text"></ion-input>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="text" formControlName="emailaddress"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label floating color="primary">Password</ion-label>
-      <ion-input type="password"></ion-input>
+      <ion-label floating>Password</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
     </ion-item>
     <ion-row>
       <button ion-button block (click)="register()">Register</button>
     </ion-row>
-  </ion-content>
+  </div>
+</ion-content>

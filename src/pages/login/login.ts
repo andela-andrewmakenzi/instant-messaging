@@ -10,7 +10,7 @@ export class LoginPage {
 
   constructor(
     private navCtrl: NavController,
-    private navParams: NavParams
+    private navParams: NavParams,
   ) {
   }
 
@@ -20,5 +20,8 @@ export class LoginPage {
 
   login() {
     this.navCtrl.setRoot('TabsPage');
+  }
+
+  ionViewWillLoad() {
   }
 }
