@@ -32,7 +32,7 @@ export class RegisterPage {
           message: 'Successfully added user',
           duration: 2000,
           showCloseButton: true,
-          closeButtonText: 'Dimsiss',
+          closeButtonText: 'Dismiss',
           dismissOnPageChange: true
         }).present().then(res => {
           this.navCtrl.push('TabsPage');

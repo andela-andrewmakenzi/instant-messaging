@@ -4,17 +4,16 @@
   </ion-navbar>
 </ion-header>
 
-
 <ion-content padding>
   <img src="assets/logo.png" alt="logo" class="logo" />
-  <div>
+  <div [formGroup]="form">
     <ion-item>
       <ion-label floating color="primary">Email Address</ion-label>
-      <ion-input type="text"></ion-input>
+      <ion-input formControlName="email" type="text"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating color="primary">Password</ion-label>
-      <ion-input type="password"></ion-input>
+      <ion-input formControlName="password" type="password"></ion-input>
     </ion-item>
     <ion-row>
       <button ion-button block (click)="login()">Log In</button>

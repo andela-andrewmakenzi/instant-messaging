@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, ToastController } from 'ionic-angular';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -8,9 +10,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LoginPage {
 
+  form: FormGroup;
+
   constructor(
     private navCtrl: NavController,
-    private navParams: NavParams,
+    private angularFireAuth: AngularFireAuth,
+    private formBuilder: FormBuilder,
+    private toastController: ToastController
   ) {
   }
 
@@ -19,9 +25,34 @@ export class LoginPage {
   }
 
   login() {
-    this.navCtrl.setRoot('TabsPage');
+    this.angularFireAuth.auth.signInWithEmailAndPassword(this.form.value.email, this.form.value.password).then(
+      res => {
+        this.toastController.create({
+          message: 'Login Successful',
+          duration: 500,
+          dismissOnPageChange: true
+        }).present().then(
+          res => {
+            this.navCtrl.push('TabsPage');
+          }
+          );
+      }
+    ).catch(
+      error => {
+        this.toastController.create({
+          message: error.message,
+          duration: 2000,
+          showCloseButton: true,
+          closeButtonText: 'Dismiss'
+        }).present();
+      }
+      )
   }
 
   ionViewWillLoad() {
+    this.form = this.formBuilder.group({
+      email: '',
+      password: ''
+    })
   }
 }
