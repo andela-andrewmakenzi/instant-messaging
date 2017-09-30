@@ -23,6 +23,16 @@ export class RegisterPage {
   }
 
   register() {
+    if (this.loginForm.value.email == '' || this.loginForm.value.password == '') {
+      this.toastController.create({
+        message: 'please provide email and password values',
+        duration: 3000,
+        dismissOnPageChange: true,
+        showCloseButton: true,
+        closeButtonText: 'Dismiss'
+      }).present();
+      return;
+    }
     const auth$ = this.fireAuth.auth.createUserWithEmailAndPassword(
       this.loginForm.value.emailaddress,
       this.loginForm.value.password

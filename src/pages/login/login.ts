@@ -25,6 +25,16 @@ export class LoginPage {
   }
 
   login() {
+    if(this.form.value.email == '' || this.form.value.password == '') {
+      this.toastController.create({
+        message: 'please provide email and password values',
+        duration: 3000,
+        dismissOnPageChange: true,
+        showCloseButton: true,
+        closeButtonText: 'Dismiss'
+      }).present();
+      return;
+    }
     this.angularFireAuth.auth.signInWithEmailAndPassword(this.form.value.email, this.form.value.password).then(
       res => {
         this.toastController.create({
