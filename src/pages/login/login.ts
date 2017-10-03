@@ -9,7 +9,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: 'login.html',
 })
 export class LoginPage {
-
   form: FormGroup;
 
   constructor(
@@ -25,7 +24,7 @@ export class LoginPage {
   }
 
   login() {
-    if(this.form.value.email == '' || this.form.value.password == '') {
+    if (this.form.value.email == '' || this.form.value.password == '') {
       this.toastController.create({
         message: 'please provide email and password values',
         duration: 3000,
@@ -37,15 +36,13 @@ export class LoginPage {
     }
     this.angularFireAuth.auth.signInWithEmailAndPassword(this.form.value.email, this.form.value.password).then(
       res => {
-        this.toastController.create({
-          message: 'Login Successful',
-          duration: 500,
-          dismissOnPageChange: true
-        }).present().then(
-          res => {
-            this.navCtrl.push('TabsPage');
-          }
-          );
+        // @todo find out why the toaster code generates an error
+        // this.toastController.create({
+        //   message: 'Login Successful',
+        //   duration: 1000,
+        //   dismissOnPageChange: true
+        // }).present();
+        this.navCtrl.setRoot('TabsPage');
       }
     ).catch(
       error => {
