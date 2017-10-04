@@ -19,7 +19,6 @@ export class LoginPage {
     private formBuilder: FormBuilder,
     private toastController: ToastController
   ) {
-    console.log('user is', this.user);
   }
 
   register() {

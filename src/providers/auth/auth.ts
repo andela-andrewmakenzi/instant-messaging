@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { User } from '../../models/users.interface';
+import { User as Profile } from '../../models/users.interface';
+import { User } from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AuthProvider {
@@ -13,15 +15,22 @@ export class AuthProvider {
    * @param User Object representing user
    * @return Observable
    */
-  public signUp(user: User) {
+  public signUp(user: Profile) {
     return this.angularFire.auth.createUserWithEmailAndPassword(user.emailaddress, user.password);
   }
 
   /**
    *s @param User Object representing user
-   @return Observabke
+   @return Observable
    */
-  public signIn(user: User) {
+  public signIn(user: Profile) {
     return this.angularFire.auth.signInWithEmailAndPassword(user.emailaddress, user.password);
+  }
+
+  /**
+   * @return Observable of type User i.e firebase/app
+   */
+  public isAuthenticated() {
+    return this.angularFire.authState;
   }
 }

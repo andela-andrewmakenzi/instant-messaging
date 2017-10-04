@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the ProfilePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { AuthProvider } from '../../providers/auth/auth';
+import { AuthserviceProvider } from '../../providers/authservice/authservice';
+import { User as Profile } from '../../models/users.interface';
 
 @IonicPage()
 @Component({
@@ -14,12 +11,50 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
+  form: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    private navCtrl: NavController,
+    private navParams: NavParams,
+    private authService: AuthserviceProvider,
+    private toastCtrl: ToastController,
+    private formBuilder: FormBuilder
+  ) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
   }
 
+  ionViewWillLoad() {
+    this.form = this.formBuilder.group({
+      name: ''
+    });
+  }
+
+  updateProfile() {
+    const name = this.form.value.name;
+    const profile: Profile = { name: name };
+    if (!name) {
+      return;
+    }
+    this.authService.updateUserProfile(profile).then(
+      res => {
+        this.toastCtrl.create({
+          message: 'Successfully updated profile',
+          duration: 2000,
+          showCloseButton: true,
+          closeButtonText: 'Close',
+          cssClass: 'success'
+        }).present()
+      }
+    ).catch(
+      error => {
+        this.toastCtrl.create({
+          message: 'Error updating profile',
+          duration: 2000,
+          cssClass: 'error'
+        }).present();
+      }
+      )
+  }
 }
