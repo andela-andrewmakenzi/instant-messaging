@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthProvider } from '../../providers/auth/auth';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { User } from '../../models/users.interface';
 
 @IonicPage()
 @Component({
@@ -10,13 +11,15 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class LoginPage {
   form: FormGroup;
+  user = {} as User;
 
   constructor(
     private navCtrl: NavController,
-    private angularFireAuth: AngularFireAuth,
+    private auth: AuthProvider,
     private formBuilder: FormBuilder,
     private toastController: ToastController
   ) {
+    console.log('user is', this.user);
   }
 
   register() {
@@ -34,7 +37,10 @@ export class LoginPage {
       }).present();
       return;
     }
-    this.angularFireAuth.auth.signInWithEmailAndPassword(this.form.value.email, this.form.value.password).then(
+
+    this.user.emailaddress = this.form.value.email;
+    this.user.password = this.form.value.password;
+    this.auth.signIn(this.user).then(
       res => {
         // @todo find out why the toaster code generates an error
         // this.toastController.create({

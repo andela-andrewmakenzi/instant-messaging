@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { ToastController } from 'ionic-angular';
+import { AuthProvider } from '../../providers/auth/auth';
+import { User } from '../../models/users.interface';
 
 @IonicPage()
 @Component({
@@ -10,14 +12,14 @@ import { ToastController } from 'ionic-angular';
   templateUrl: 'register.html',
 })
 export class RegisterPage {
-
   loginForm: FormGroup;
+  user = {} as User;
 
   constructor(
     private navCtrl: NavController,
     private navParams: NavParams,
     private formBuilder: FormBuilder,
-    private fireAuth: AngularFireAuth,
+    private auth: AuthProvider,
     private toastController: ToastController
   ) {
   }
@@ -33,10 +35,11 @@ export class RegisterPage {
       }).present();
       return;
     }
-    const auth$ = this.fireAuth.auth.createUserWithEmailAndPassword(
-      this.loginForm.value.emailaddress,
-      this.loginForm.value.password
-    ).then(
+
+    this.user.emailaddress = this.loginForm.value.emailaddress;
+    this.user.password = this.loginForm.value.password;
+
+    const auth$ = this.auth.signUp(this.user).then(
       results => {
         this.toastController.create({
           message: 'Successfully added user',
