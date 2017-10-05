@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { User } from 'firebase/app';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 import { User as Profile } from '../../models/users.interface';
 import { AuthProvider } from '../auth/auth';
-import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class AuthserviceProvider {
@@ -20,8 +19,10 @@ export class AuthserviceProvider {
   }
 
   isLoggedIn() {
+    console.log(this.user.uid);
     return this.user.uid ? true : false;
   }
+
   /**
    * Saves user profile information for user in different pages
    * @return boolean whether or not we can successfully identify the user
@@ -29,5 +30,13 @@ export class AuthserviceProvider {
   updateUserProfile(profile: Profile) {
     // if user is authenticated
     return this.database.object(`/profile/${this.user.uid}`).set(profile);
+  }
+
+  /**
+   * use this function on login to determine whether it's their first time login in
+   * if so, take them to edit their profile
+   */
+  userFilledProfile(): FirebaseObjectObservable<any> {
+    return this.database.object(`/profile/${this.user.uid}`);
   }
 }

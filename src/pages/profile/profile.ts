@@ -37,6 +37,8 @@ export class ProfilePage {
     if (!name) {
       return;
     }
+
+    // @todo show loading bars/spinners are this happends
     this.authService.updateUserProfile(profile).then(
       res => {
         this.toastCtrl.create({
@@ -44,13 +46,15 @@ export class ProfilePage {
           duration: 2000,
           showCloseButton: true,
           closeButtonText: 'Close',
+          dismissOnPageChange: true,
           cssClass: 'success'
         }).present()
+        this.navCtrl.setRoot('TabsPage');
       }
     ).catch(
       error => {
         this.toastCtrl.create({
-          message: 'Error updating profile',
+          message: error.message,
           duration: 2000,
           cssClass: 'error'
         }).present();

@@ -3,6 +3,7 @@ import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { User } from '../../models/users.interface';
+import { AuthserviceProvider } from '../../providers/authservice/authservice';
 
 @IonicPage()
 @Component({
@@ -17,7 +18,8 @@ export class LoginPage {
     private navCtrl: NavController,
     private auth: AuthProvider,
     private formBuilder: FormBuilder,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private authServiceProvider: AuthserviceProvider
   ) {
   }
 
@@ -47,7 +49,12 @@ export class LoginPage {
         //   duration: 1000,
         //   dismissOnPageChange: true
         // }).present();
-        this.navCtrl.setRoot('TabsPage');
+        this.authServiceProvider.userFilledProfile().subscribe(
+          res => {
+            console.log(res);
+            res.name ? this.navCtrl.setRoot('TabsPage') : this.navCtrl.setRoot('ProfilePage');
+          }
+        );
       }
     ).catch(
       error => {
@@ -66,5 +73,14 @@ export class LoginPage {
       email: '',
       password: ''
     })
+  }
+
+  /**
+   * if user is logged in, redirect them to right page
+   */
+  ionViewCanEnter() {
+    if(this.authServiceProvider.isLoggedIn()) {
+      this.navCtrl.setRoot('TabsPage');
+    }
   }
 }
