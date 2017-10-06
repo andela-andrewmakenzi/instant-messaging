@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  ToastController,
+  LoadingController
+} from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { AuthserviceProvider } from '../../providers/authservice/authservice';
 import { User as Profile } from '../../models/users.interface';
@@ -12,12 +18,13 @@ import { User as Profile } from '../../models/users.interface';
 })
 export class ProfilePage {
   form: FormGroup;
+  name: string;
 
   constructor(
     private navCtrl: NavController,
     private navParams: NavParams,
-    private authService: AuthserviceProvider,
     private auth: AuthProvider,
+    private authService: AuthserviceProvider,
     private toastCtrl: ToastController,
     private formBuilder: FormBuilder
   ) {
@@ -35,6 +42,18 @@ export class ProfilePage {
     this.form = this.formBuilder.group({
       name: ''
     });
+  }
+
+  ionViewWillEnter() {
+    if (this.authService.isLoggedIn()) {
+      this.authService.fetchProfileInformation().subscribe(
+        res => {
+          if (res.name) {
+            this.form.get('name').setValue(res.name);
+          }
+        }
+      )
+    }
   }
 
   updateProfile() {

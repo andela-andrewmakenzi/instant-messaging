@@ -9,7 +9,7 @@ import { AuthserviceProvider } from '../providers/authservice/authservice';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = '';
+  rootPage: any = '';
 
   constructor(
     platform: Platform,
@@ -23,6 +23,7 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+
     });
 
     /**
@@ -30,7 +31,7 @@ export class MyApp {
      */
     this.authProvider.isAuthenticated().subscribe(
       res => {
-        if(res && res.uid) {
+        if (res && res.uid) {
           this.rootPage = 'TabsPage';;
         } else {
           this.rootPage = 'LoginPage';

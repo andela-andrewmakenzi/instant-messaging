@@ -41,4 +41,8 @@ export class AuthserviceProvider {
   userFilledProfile(): FirebaseObjectObservable<any> {
     return this.database.object(`/profile/${this.user.uid}`);
   }
+
+  fetchProfileInformation(): FirebaseObjectObservable<any> {
+    return this.database.object(`/profile/${this.user.uid}`);
+  }
 }
