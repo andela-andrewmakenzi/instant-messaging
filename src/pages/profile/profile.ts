@@ -17,12 +17,18 @@ export class ProfilePage {
     private navCtrl: NavController,
     private navParams: NavParams,
     private authService: AuthserviceProvider,
+    private auth: AuthProvider,
     private toastCtrl: ToastController,
     private formBuilder: FormBuilder
   ) {
   }
 
   ionViewDidLoad() {
+  }
+
+  logout() {
+    this.auth.signOut();
+    this.navCtrl.setRoot('LoginPage');
   }
 
   ionViewWillLoad() {

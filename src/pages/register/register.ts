@@ -48,7 +48,7 @@ export class RegisterPage {
           closeButtonText: 'Dismiss',
           dismissOnPageChange: true
         }).present().then(res => {
-          this.navCtrl.push('ProfilePage');
+          this.navCtrl.setRoot('ProfilePage');
         });
       }
       ).catch(

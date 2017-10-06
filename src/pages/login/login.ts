@@ -4,6 +4,9 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { User } from '../../models/users.interface';
 import { AuthserviceProvider } from '../../providers/authservice/authservice';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/take';
+
 
 @IonicPage()
 @Component({
@@ -17,9 +20,10 @@ export class LoginPage {
   constructor(
     private navCtrl: NavController,
     private auth: AuthProvider,
+    private authServiceProvider: AuthserviceProvider,
     private formBuilder: FormBuilder,
-    private toastController: ToastController,
-    private authServiceProvider: AuthserviceProvider
+    private toastController: ToastController
+
   ) {
   }
 
@@ -51,7 +55,6 @@ export class LoginPage {
         // }).present();
         this.authServiceProvider.userFilledProfile().subscribe(
           res => {
-            console.log(res);
             res.name ? this.navCtrl.setRoot('TabsPage') : this.navCtrl.setRoot('ProfilePage');
           }
         );
@@ -75,12 +78,6 @@ export class LoginPage {
     })
   }
 
-  /**
-   * if user is logged in, redirect them to right page
-   */
   ionViewCanEnter() {
-    if(this.authServiceProvider.isLoggedIn()) {
-      this.navCtrl.setRoot('TabsPage');
-    }
   }
 }

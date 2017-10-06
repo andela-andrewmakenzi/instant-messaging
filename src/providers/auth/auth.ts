@@ -28,9 +28,16 @@ export class AuthProvider {
   }
 
   /**
+   * sign out of application
+   */
+  public signOut() {
+    this.angularFire.auth.signOut();
+  }
+
+  /**
    * @return Observable of type User i.e firebase/app
    */
-  public isAuthenticated() {
+  public isAuthenticated(): Observable<User> {
     return this.angularFire.authState;
   }
 }

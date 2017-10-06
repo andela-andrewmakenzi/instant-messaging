@@ -5,7 +5,6 @@
 </ion-header>
 
 <ion-content padding>
-  <img src="assets/logo.png" alt="logo" class="logo" />
   <div [formGroup]="form">
     <ion-item>
       <ion-label floating color="primary">Email Address</ion-label>
@@ -15,6 +14,7 @@
       <ion-label floating color="primary">Password</ion-label>
       <ion-input formControlName="password" type="password"></ion-input>
     </ion-item>
+    <br />
     <ion-row>
       <button ion-button block (click)="login()">Log In</button>
       <button ion-button clear block (click)="register()">Register</button>

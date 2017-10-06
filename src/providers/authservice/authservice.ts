@@ -3,6 +3,7 @@ import { User } from 'firebase/app';
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 import { User as Profile } from '../../models/users.interface';
 import { AuthProvider } from '../auth/auth';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class AuthserviceProvider {
@@ -14,12 +15,14 @@ export class AuthserviceProvider {
   ) {
     // provide information for logged in user
     this.auth.isAuthenticated().subscribe(
-      res => { this.user = res; }
+      res => { this.user = res; } // when subscription expires, user object will be reset
     );
   }
 
+  /**
+   * check whether user is logged in/authenticated before performing any actions
+   */
   isLoggedIn() {
-    console.log(this.user.uid);
     return this.user.uid ? true : false;
   }
 
@@ -28,7 +31,6 @@ export class AuthserviceProvider {
    * @return boolean whether or not we can successfully identify the user
    */
   updateUserProfile(profile: Profile) {
-    // if user is authenticated
     return this.database.object(`/profile/${this.user.uid}`).set(profile);
   }
 
