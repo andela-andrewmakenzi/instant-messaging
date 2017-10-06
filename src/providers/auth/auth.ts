@@ -20,8 +20,8 @@ export class AuthProvider {
   }
 
   /**
-   *s @param User Object representing user
-   @return Observable
+   * @param User Object representing user
+   * @return Observable
    */
   public signIn(user: Profile) {
     return this.angularFire.auth.signInWithEmailAndPassword(user.emailaddress, user.password);

@@ -26,16 +26,12 @@ export class ProfilePage {
     private auth: AuthProvider,
     private authService: AuthserviceProvider,
     private toastCtrl: ToastController,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private loader: LoadingController
   ) {
   }
 
   ionViewDidLoad() {
-  }
-
-  logout() {
-    this.auth.signOut();
-    this.navCtrl.setRoot('LoginPage');
   }
 
   ionViewWillLoad() {
@@ -45,15 +41,20 @@ export class ProfilePage {
   }
 
   ionViewWillEnter() {
-    if (this.authService.isLoggedIn()) {
-      this.authService.fetchProfileInformation().subscribe(
-        res => {
-          if (res.name) {
-            this.form.get('name').setValue(res.name);
+    const animation = this.loader.create({ content: 'Fetching your profile' });
+    animation.present();
+    this.auth.isAuthenticated().subscribe(
+      res => {
+        this.authService.fetchProfileInformation().subscribe(
+          res => {
+            if (res.name) {
+              this.form.get('name').setValue(res.name);
+            }
+            animation.dismiss();
           }
-        }
-      )
-    }
+        )
+      }
+    )
   }
 
   updateProfile() {
@@ -61,6 +62,10 @@ export class ProfilePage {
     const profile: Profile = { name: name };
     if (!name) {
       return;
+    }
+
+    if (!this.authService.isLoggedIn()) {
+      this.navCtrl.setRoot('HomePage');
     }
 
     // @todo show loading bars/spinners are this happends
