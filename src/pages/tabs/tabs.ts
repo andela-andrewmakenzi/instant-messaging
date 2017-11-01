@@ -9,7 +9,9 @@ import { IonicPage } from 'ionic-angular';
 export class TabsPage {
 
   tab1Root = 'InboxPage';
+  tab2Root = 'ProfilePage';
 
   constructor() {
   }
 }
+
